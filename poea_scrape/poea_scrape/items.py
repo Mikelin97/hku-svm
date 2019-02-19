@@ -8,12 +8,7 @@
 import scrapy
 
 
-class KjriScrapeItem(scrapy.Item):
+class PoeaScrapeItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    number = scrapy.Field()
-    name = scrapy.Field()
-    bac_expiration = scrapy.Field()
-    address = scrapy.Field()
-    phone = scrapy.Field()
-    fax = scrapy.Field()
+    pass
