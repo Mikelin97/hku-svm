@@ -11,4 +11,12 @@ import scrapy
 class PoeaScrapeItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    name = scrapy.Field()
+    website = scrapy.Field() 
+    status = scrapy.Field() 
+    address = scrapy.Field() 
+    telephone = scrapy.Field() 
+    email = scrapy.Field() 
+    license_validity = scrapy.Field() 
+    official_rep = scrapy.Field() 
+

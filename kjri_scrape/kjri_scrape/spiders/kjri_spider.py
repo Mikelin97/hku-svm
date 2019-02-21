@@ -24,7 +24,7 @@ class KjriSpiderSpider(scrapy.Spider):
         	agency_item['phone'] = agencies.xpath('td//text()')[4].extract()
         	agency_item['fax'] = agencies.xpath('td//text()')[5].extract()
 
-        	item_list.append(temp) 
+        	item_list.append(agency_item) 
 
         return item_list
 
