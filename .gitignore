@@ -1,3 +1,6 @@
 /judgement_download/docs/*.txt
+/judgement_download/docs50000+/*.txt
+/judgement_download/docs100000+/*.txt
+*.zip
 .DS_Store
 */.DS_Store
