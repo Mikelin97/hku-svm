@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import re
 from poea_scrape.items import PoeaScrapeItem
 
 class PoeaSpiderSpider(scrapy.Spider):
@@ -16,12 +17,24 @@ class PoeaSpiderSpider(scrapy.Spider):
     	for agency in agencies: 
             poea_item = PoeaScrapeItem() 
             poea_item['name'] = agency.xpath('b//text()').extract()
-            poea_item['address'] = agency.re_first(r'<br>(.*?)<br>')
+
+            address = agency.re_first(r'<br>(.*?)<br>')
+
+            if address: 
+            	clean_address = self.parse_add(address)
+            	poea_item['address'] = clean_address
+            else: 
+            	poea_item['address'] = address
+
             poea_item['telephone'] = agency.re(r'Tel No/s</em> : \&amp;nbsp(.*?)\&')
             poea_item['email'] = agency.re(r'Email Address</em> : \&amp;nbsp(.*?)<br>')
             poea_item['website'] = agency.re(r'Website</em> : \&amp;nbsp(.*?)<br>')
             poea_item['official_rep'] = agency.re(r'Official Representative</em> : (.*?)<br>')
-            poea_item['status'] = agency.re(r'Status</em> : (.*?)<br>')
+
+            status_list = agency.re(r'Status</em> : (?:<font color="red">)?(.*?)(<br>|</font>)')
+            if status_list: 
+            	poea_item['status'] = status_list[0]
+            
             poea_item['license_validity'] = agency.re(r'License Validity</em> : (.*?)<br>')
             agency_output.append(poea_item)
 
@@ -38,3 +51,8 @@ class PoeaSpiderSpider(scrapy.Spider):
     		# 	'License Validity': agency.re(r'License Validity</em> : (.*?)<br>')
     		# }
 
+    	
+    def parse_add(self, string): 
+    	temp_string1 = re.sub(r'&amp;nbsp', "", string)  #remove &amp;nbsp in the address
+    	temp_string2 = re.sub(r'&amp;', "&", temp_string1) #replace &amp; with &
+    	return temp_string2
